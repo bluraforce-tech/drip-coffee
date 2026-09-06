@@ -1,0 +1,35 @@
+import React, { useEffect, useState } from 'react'
+import { ArrowRight, ChevronRight, Clock3, Facebook, Instagram, MapPin, Menu as MenuIcon, Phone, X } from 'lucide-react'
+import { favorites, menu } from './menu'
+
+const MAP_URL = 'https://goo.gl/maps/jphKzYg7FNm1HRM7A'
+
+function Header() {
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('home')
+  useEffect(() => {
+    const ids = ['home','favorites','menu','story','visit']
+    const observer = new IntersectionObserver(entries => entries.forEach(e => e.isIntersecting && setActive(e.target.id)), { rootMargin: '-30% 0px -60%' })
+    ids.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el) })
+    return () => observer.disconnect()
+  }, [])
+  const links = [['home','Home'],['favorites','Favorites'],['menu','Menu'],['story','Our story'],['visit','Visit']]
+  return <header className="site-header"><a className="brand" href="#home" aria-label="Drip Coffee home"><img src="/images/drip-logo.png" alt=""/><span>DRIP <i>coffee</i></span></a>
+    <nav className={open ? 'nav open' : 'nav'} aria-label="Main navigation">{links.map(([id,label])=><a key={id} className={active===id?'active':''} href={`#${id}`} onClick={()=>setOpen(false)}>{label}</a>)}<a className="nav-call" href="tel:01555012987">Call us</a></nav>
+    <button className="menu-toggle" onClick={()=>setOpen(!open)} aria-label={open?'Close menu':'Open menu'} aria-expanded={open}>{open?<X/>:<MenuIcon/>}</button>
+  </header>
+}
+
+function Hero(){return <section className="hero" id="home"><div className="hero-media" aria-hidden="true"/><div className="hero-shade"/><div className="hero-content reveal"><span className="eyebrow light">Alexandria · Est. 2022</span><h1>Good coffee.<br/><em>Down to the last drop.</em></h1><p>A warm pause in the city—made with thoughtful brews, familiar favorites, and a little room to stay awhile.</p><div className="hero-actions"><a className="button cream" href="#menu">Explore the menu <ArrowRight/></a><a className="text-link light" href={MAP_URL} target="_blank" rel="noreferrer">Find us <ChevronRight/></a></div></div><a className="scroll-cue" href="#favorites"><span>Scroll to discover</span><i/></a></section>}
+
+function Favorites(){return <section className="section favorites" id="favorites"><div className="section-head reveal"><div><span className="eyebrow">Start here</span><h2>Cups worth<br/><em>slowing down for.</em></h2></div><p>From hand-poured coffee to a cold, creamy favorite—three ways into the Drip menu.</p></div><div className="favorite-grid">{favorites.map((item,i)=><article className={`favorite-card favorite-${i+1} reveal`} key={item.name}><span className="card-num">0{i+1}</span><div><p className="kicker">{i===0?'Milky shots':i===1?'Drip coffee':'Frappe'}</p><h3>{item.name}</h3><p>{item.copy}</p><span className="price">{item.price} <small>EGP</small></span></div></article>)}</div></section>}
+
+function MenuSection(){const [selected,setSelected]=useState('Espresso'); const group=menu.find(g=>g.category===selected); return <section className="section menu-section" id="menu"><div className="menu-intro reveal"><span className="eyebrow light">The full menu</span><h2>Made for<br/><em>every mood.</em></h2><p>Choose a category to explore. Prices are shown in Egyptian pounds and transcribed from Drip Coffee’s current published menu.</p></div><div className="menu-shell reveal"><div className="category-list" role="tablist" aria-label="Menu categories">{menu.map(g=><button key={g.category} role="tab" aria-selected={selected===g.category} onClick={()=>setSelected(g.category)}>{g.category}<span>{String(g.items.length).padStart(2,'0')}</span></button>)}</div><div className="menu-panel" role="tabpanel"><div className="menu-panel-head"><div><span>Selected menu</span><h3>{group.category}</h3></div><p>{group.note}</p></div><div className="item-list">{group.items.map(([name,price])=><div className="menu-item" key={name}><span>{name}</span><i/><strong>{price} <small>EGP</small></strong></div>)}</div></div></div><p className="menu-note">Menu availability and prices may change. Please call the branch for current details.</p></section>}
+
+function Story(){return <section className="story section" id="story"><div className="story-image reveal"><img src="/images/drip-hero.webp" alt="Spanish latte and espresso on a warm wooden coffee bar" loading="lazy"/></div><div className="story-copy reveal"><span className="eyebrow">About Drip</span><h2>A simple ritual,<br/><em>done beautifully.</em></h2><p>Drip Coffee is an Alexandria coffee shop established in 2022. Its menu moves from the essentials—espresso, Turkish coffee and hand brews—to Spanish lattes, cold drinks, waffles and bakery treats.</p><p>Whatever brings you in, the idea stays the same: make the cup count, from the first sip to the last drop.</p><div className="story-stats"><div><strong>2022</strong><span>Established</span></div><div><strong>16</strong><span>Menu categories</span></div></div></div></section>}
+
+function Visit(){return <section className="visit" id="visit"><div className="visit-main reveal"><span className="eyebrow light">Come by</span><h2>Your next cup<br/><em>is in Alexandria.</em></h2><a className="button cream" href={MAP_URL} target="_blank" rel="noreferrer">Get directions <ArrowRight/></a></div><div className="visit-details"><div className="detail"><MapPin/><div><span>Find us</span><strong>20 Port Said St.<br/>Alexandria, Egypt</strong><a href={MAP_URL} target="_blank" rel="noreferrer">Open in Maps</a></div></div><div className="detail"><Phone/><div><span>Call us</span><strong><a href="tel:01555012987">01555012987</a></strong><a href="sms:01555012987">Send an SMS</a></div></div><div className="detail"><Clock3/><div><span>Opening hours</span><strong>Hours not published</strong><a href="tel:01555012987">Call to confirm</a></div></div></div></section>}
+
+function App(){return <><Header/><main><Hero/><Favorites/><MenuSection/><Story/><Visit/><section className="final-cta"><span className="eyebrow">Stay connected</span><h2>Meet us at<br/><em>the next drop.</em></h2><div><a className="button dark" href="tel:01555012987">Call Drip <Phone/></a><a className="text-link" href="https://www.instagram.com/dripcoffeeegy/" target="_blank" rel="noreferrer">Follow on Instagram <Instagram/></a></div></section></main><footer><a className="brand footer-brand" href="#home"><img src="/images/drip-logo.png" alt="Drip Coffee logo"/><span>DRIP <i>coffee</i></span></a><p>Good to the last drop.</p><div className="socials"><a href="https://www.facebook.com/dripcoffeeegy" target="_blank" rel="noreferrer" aria-label="Drip Coffee on Facebook"><Facebook/></a><a href="https://www.instagram.com/dripcoffeeegy/" target="_blank" rel="noreferrer" aria-label="Drip Coffee on Instagram"><Instagram/></a><a href="tel:01555012987" aria-label="Call Drip Coffee"><Phone/></a></div><small>© {new Date().getFullYear()} Drip Coffee. Alexandria, Egypt.</small></footer></>}
+
+export default App
