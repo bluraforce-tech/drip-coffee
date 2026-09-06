@@ -14,6 +14,9 @@
 
 .site-header { background: rgba(16, 26, 29, .92); }
 .nav-call { border-color: rgba(210, 163, 72, .65); }
+.favorites,
+.nav a[href="#favorites"],
+.scroll-cue { display: none; }
 
 .hero-media {
   background-image: url('/images/drip-interior.png');
