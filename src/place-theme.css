@@ -1,0 +1,58 @@
+:root {
+  --ink: #101a1d;
+  --espresso: #101a1d;
+  --cream: #eee5d5;
+  --paper: #f6f1e8;
+  --latte: #d2a348;
+  --gold: #c99435;
+  --navy: #263d4d;
+  --navy-deep: #17272f;
+  --oak: #b87b3e;
+  --muted: #6c6860;
+  --line: rgba(16, 26, 29, .16);
+}
+
+.site-header { background: rgba(16, 26, 29, .92); }
+.nav-call { border-color: rgba(210, 163, 72, .65); }
+
+.hero-media {
+  background-image: url('/images/drip-interior.png');
+  background-position: center;
+  transform: scale(1.01);
+}
+
+.hero-shade {
+  background:
+    linear-gradient(90deg, rgba(12, 25, 33, .94) 0%, rgba(12, 25, 33, .72) 37%, rgba(12, 25, 33, .08) 69%),
+    linear-gradient(0deg, rgba(8, 15, 18, .46), transparent 55%);
+}
+
+.favorite-card { background: var(--navy); }
+.favorite-card::before {
+  background: linear-gradient(145deg, rgba(255,255,255,.06), transparent 52%);
+}
+.favorite-1 { background: #263d4d; }
+.favorite-2 { background: #b77b3e; }
+.favorite-3 { background: #17272f; }
+.favorite-card:hover::before { transform: none; }
+
+.menu-section { background: var(--navy-deep); }
+.menu-panel { background: #203541; }
+.visit-details { background: var(--navy-deep); }
+.final-cta { background: #eee5d5; }
+footer { background: #101a1d; }
+
+.story-image img {
+  content: url('/images/drip-interior.png');
+  object-position: 50% center;
+}
+
+@media (max-width: 850px) {
+  .nav { background: #101a1d; }
+  .hero-media { background-position: 54% center; }
+  .hero-shade {
+    background:
+      linear-gradient(90deg, rgba(10, 22, 29, .9), rgba(10, 22, 29, .28)),
+      linear-gradient(0deg, rgba(10, 22, 29, .72), transparent 58%);
+  }
+}
